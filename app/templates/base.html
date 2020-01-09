@@ -1,4 +1,4 @@
-<html>
+><html>
     <head>
     	{% if title %}
     	<title>{{ title }} - Microblog </title>
@@ -7,8 +7,24 @@
     	{% endif %}
     </head>
     <body>
-    	<div>Microblog: <a href="/index">Home</a></div>
+    	<div>
+            Microblog:
+            <!-- added links for home page and the login page to the navigation bar-->
+             <a href="{{ url_for('index') }}">Home</a>
+             <a href="{{ url_for('login') }}">Login</a>
+        </div>
     	<hr>
+        <!-- a 'with' construct is used to assign the result of calling 'get_flashed_messages()' to a 'messages' variable all within the context of the template. 'get_flashed_messages()' function comes from Flask and returns a list of all messages registered with flash() previously.
+        The conditional that follows checks if messages has any actual content in which case a <ul> element is rendered with each message as a list (<li>) item. This doesn't look great but we can style it later.-->
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul>
+            {% for messages in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
     	{% block content %}{% endblock %}
     </body>
 </html>

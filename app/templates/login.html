@@ -1,0 +1,36 @@
+<!-- calling our base.html file as a template once more -->
+{% extends "base.html" %}
+
+<!-- This template expects a form object instantiated from the
+	LoginForm class to be given as an argument, which is referenced
+	as 'form'. This argument will be sent by the login view function.-->
+{% block content %}
+    <h1>Sign In</h1>
+
+    <!--The HTML <form> element is used s a container for the web form.
+    	The 'action' attribute is used to tell the browser the URL to be used when submitting information the user entered in the form. When action is set to an empty string, the form is submitted instead to the URL that is currently in the address bar (the URL that rendered the form on the page)
+    	The 'method' attribute specifies the HTTP request method that should be used when submitting the form to the server. Default is to send it with a GET request but using a POST request can make for a better user experience since requests of this type can submit the form data in the body of the request whereas GET requests add form fields to the URL, cluttering the browser address bar.
+    	The novalidate attribute is used to tell the browser not to apply validation fields in this form which leaves the task to the Flask application running in the server. (using novalidate is optional but for this form its important that we set it since this will allow us to test server side validation later on) -->
+    <form action = "" method="post" novalidate>
+
+    	<!-- form.hidden_tag() template argument generates a hidden field that
+    		includes a token that is used to protect the form against CSRF attacks. To have the form proteted you need to include this hidden field and have the SECRET_KEY variable defined in the Flask configuartion. Flask-WTF does the rest, -->
+    	{{ form.hidden_tag() }}
+    	<p>
+    		{{ form.username.label }}<br>
+    		{{ form.username(size=32) }}
+            {% for error in form.username.errors %}
+            <span style ="color: green;">[{{ error }}]</span>
+            {% endfor %}
+    	</p>
+    	<p>
+    		{{ form.password.label }}<br>
+    		{{ form.password(size=32) }}
+            {% for error in form.password.errors %}
+            <span style="color: blue;">[{{ error }}]</span>
+            {% endfor %}
+    	</p>
+    	<p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
+    	<p>{{ form.submit() }}</p>
+    </form>
+{% endblock %}
