@@ -11,7 +11,12 @@
             Microblog:
             <!-- added links for home page and the login page to the navigation bar-->
              <a href="{{ url_for('index') }}">Home</a>
+             <!-- the is-anonymous property is one of the attributes Flask-Login adds to the user objects through UserMixin. The expression current_user.is_anonymous is going to be True only when the user is not logged in -->
+             {% if current_user.is_anonymous %}
              <a href="{{ url_for('login') }}">Login</a>
+             {% else %}
+             <a href="{{ url_for('logout') }}">Logout</a>
+             {% endif %}
         </div>
     	<hr>
         <!-- a 'with' construct is used to assign the result of calling 'get_flashed_messages()' to a 'messages' variable all within the context of the template. 'get_flashed_messages()' function comes from Flask and returns a list of all messages registered with flash() previously.
