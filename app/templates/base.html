@@ -15,8 +15,10 @@
              {% if current_user.is_anonymous %}
              <a href="{{ url_for('login') }}">Login</a>
              {% else %}
+             <a href="{{ url_for('user', username=current_user.username) }}">Profile</a>
              <a href="{{ url_for('logout') }}">Logout</a>
              {% endif %}
+
         </div>
     	<hr>
         <!-- a 'with' construct is used to assign the result of calling 'get_flashed_messages()' to a 'messages' variable all within the context of the template. 'get_flashed_messages()' function comes from Flask and returns a list of all messages registered with flash() previously.
