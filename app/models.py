@@ -5,6 +5,17 @@ from flask_login import UserMixin
 from app import login
 from hashlib import md5
 
+"""
+Below is a direct translation of an association table between
+users. We are not declaring this table as its own model since
+this is an auxillary table with no data other than the foreign
+keys.
+"""
+followers = db.Table('followers',
+        db.Column('follower_id', db.Integer, db.ForeignKey('user.id')),
+        db.Column('followed_id', db.Integer, db.ForeignKey('user.id'))
+)
+
 
 # user class is inheriting from db.Model which is a base class
 # for all models from Flask-SQLAlchemy.
@@ -18,6 +29,51 @@ class User(UserMixin, db.Model):
     password_hash = db.Column(db.String(128))
     about_me = db.Column(db.String(140))
     last_seen = db.Column(db.DateTime, default=datetime.utcnow)
+
+    """
+    like we did for the posts one to many relationship, we're using
+    db.relationship to define the relationship in the model class.
+    This relationship links User instances to other User instances
+    so as a convention we're dgoing to say that for a pair of users
+    linked by this relationship, the left side user is following
+    the right side user.
+    We're defining the rleationship as seen from the left side user
+    with the name 'followed', because when we query this relationship
+    from the left side, we will get a list of the followed users.
+    """
+    """
+    - 'User' is the right side entity of the relationship (the left
+    side entity is the parent class) since this is a self-referential
+    relationship we have to use the same class on both sides.
+    - 'secondary' configures the association table that is used
+    for this relationship.
+    - 'primaryjoin' indicaes the condition that links the left side
+    entity(the follower user) with hte association table. The join
+    condition for the left side of the relationship is the user ID
+    matching the follower_id field of the association table. The
+    followers.c.follower_id expression references the follower_id
+    column of the association table.
+    - 'secondaryjoin' indicates the condition that links the right
+    side entity(the followed user) with the association table. This
+    condition is similar to the one for primaryjoin, which the only
+    difference that now we're using followed_id.
+    - 'backref' defines how this relationship will be accessed from
+    the right side entity. From the left side the relationship is named
+    'followed' so from the right side we're going to use the name
+    'followers' to represent all of the left side users that are linked
+    to the target user in the right side. The addition of the 'lazy'
+    argument indicates the execution mode for this query. A dynamic
+    mode sets up the query to not run until specifically requested.
+    - 'lazy' this one at the end applies to the left side side query
+    instead of the right side.
+    """
+    followed = db.relationship(
+        'User', secondary=followers,
+        # why the == instead of =?
+        primaryjoin=(followers.c.follower_id == id),
+        secondaryjoin=(followers.c.followed_id == id),
+        backref=db.backref('followers', lazy='dynamic'), lazy='dynamic')
+
     # the posts field is not actually a database field, but a high-level
     # view of the relationship between users and posts and wont be
     # in the database diagram for that reason.
@@ -50,6 +106,24 @@ class User(UserMixin, db.Model):
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
 
+    def follow(self, user):
+        if not self.is_following(user):
+            self.followed.append(user)
+
+    def unfollow(self, user):
+        if self.is_following(user):
+            self.followed.remove(user)
+
+    def is_following(self, user):
+        return self.followed.filter(
+            followers.c.followed_id == user.id).count() > 0
+
+    def followed_posts(self):
+        followed = Post.query.join(
+            followers, (followers.c.followed_id == Post.user_id)).filter(
+                followers.c.follower_id == self.id)
+        own = Post.query.filter_by(user_id=self.id)
+        return followed.union(own).order_by(Post.timestamp.desc())
     """
     this method of the User class returns the URL of the user's avatar image
     scaled to the requested size in pixels. For users without a registered
