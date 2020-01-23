@@ -82,3 +82,4 @@ sqlalchemy.exc.IntegrityError: (sqlite3.IntegrityError) UNIQUE constraint failed
 2020-01-22 18:24:53,007 INFO: Microblog startup [in /Users/Pleachy/microblog/app/__init__.py:73
 2020-01-22 18:40:28,638 INFO: Microblog startup [in /Users/Pleachy/microblog/app/__init__.py:73
 2020-01-22 18:41:41,820 INFO: Microblog startup [in /Users/Pleachy/microblog/app/__init__.py:73
+2020-01-23 14:18:08,378 INFO: Microblog startup [in /Users/Pleachy/microblog/app/__init__.py:73
