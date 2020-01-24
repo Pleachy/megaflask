@@ -1,12 +1,23 @@
-2020-01-22 11:54:19,524 ERROR: Exception on /edit_profile [POST] [in /Users/Pleachy/microblog/venv/lib/python3.7/site-packages/flask/app.py:1891
+2020-01-23 16:33:00,601 ERROR: Exception on /explore [GET] [in /Users/Pleachy/microblog/venv/lib/python3.7/site-packages/flask/app.py:1891
 Traceback (most recent call last):
-  File "/Users/Pleachy/microblog/venv/lib/python3.7/site-packages/sqlalchemy/engine/base.py", line 1246, in _execute_context
-    cursor, statement, parameters, context
-  File "/Users/Pleachy/microblog/venv/lib/python3.7/site-packages/sqlalchemy/engine/default.py", line 581, in do_execute
-    cursor.execute(statement, parameters)
-sqlite3.IntegrityError: UNIQUE constraint failed: user.username
+  File "/Users/Pleachy/microblog/venv/lib/python3.7/site-packages/sqlalchemy/sql/elements.py", line 717, in __getattr__
+    return getattr(self.comparator, key)
+AttributeError: 'Comparator' object has no attribute 'des'
 
-The above exception was the direct cause of the following exception:
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/Pleachy/microblog/venv/lib/python3.7/site-packages/sqlalchemy/orm/attributes.py", line 227, in __getattr__
+    return getattr(self.comparator, key)
+  File "/Users/Pleachy/microblog/venv/lib/python3.7/site-packages/sqlalchemy/util/langhelpers.py", line 949, in __getattr__
+    return self._fallback_getattr(key)
+  File "/Users/Pleachy/microblog/venv/lib/python3.7/site-packages/sqlalchemy/orm/properties.py", line 312, in _fallback_getattr
+    return getattr(self.__clause_element__(), key)
+  File "/Users/Pleachy/microblog/venv/lib/python3.7/site-packages/sqlalchemy/sql/elements.py", line 721, in __getattr__
+    % (type(self).__name__, type(self.comparator).__name__, key)
+AttributeError: Neither 'AnnotatedColumn' object nor 'Comparator' object has an attribute 'des'
+
+During handling of the above exception, another exception occurred:
 
 Traceback (most recent call last):
   File "/Users/Pleachy/microblog/venv/lib/python3.7/site-packages/flask/app.py", line 2446, in wsgi_app
@@ -23,63 +34,48 @@ Traceback (most recent call last):
     return self.view_functions[rule.endpoint](**req.view_args)
   File "/Users/Pleachy/microblog/venv/lib/python3.7/site-packages/flask_login/utils.py", line 261, in decorated_view
     return func(*args, **kwargs)
-  File "/Users/Pleachy/microblog/app/routes.py", line 204, in edit_profile
-    db.session.commit()
-  File "/Users/Pleachy/microblog/venv/lib/python3.7/site-packages/sqlalchemy/orm/scoping.py", line 162, in do
-    return getattr(self.registry(), name)(*args, **kwargs)
-  File "/Users/Pleachy/microblog/venv/lib/python3.7/site-packages/sqlalchemy/orm/session.py", line 1036, in commit
-    self.transaction.commit()
-  File "/Users/Pleachy/microblog/venv/lib/python3.7/site-packages/sqlalchemy/orm/session.py", line 503, in commit
-    self._prepare_impl()
-  File "/Users/Pleachy/microblog/venv/lib/python3.7/site-packages/sqlalchemy/orm/session.py", line 482, in _prepare_impl
-    self.session.flush()
-  File "/Users/Pleachy/microblog/venv/lib/python3.7/site-packages/sqlalchemy/orm/session.py", line 2479, in flush
-    self._flush(objects)
-  File "/Users/Pleachy/microblog/venv/lib/python3.7/site-packages/sqlalchemy/orm/session.py", line 2617, in _flush
-    transaction.rollback(_capture_exception=True)
-  File "/Users/Pleachy/microblog/venv/lib/python3.7/site-packages/sqlalchemy/util/langhelpers.py", line 68, in __exit__
-    compat.reraise(exc_type, exc_value, exc_tb)
-  File "/Users/Pleachy/microblog/venv/lib/python3.7/site-packages/sqlalchemy/util/compat.py", line 153, in reraise
+  File "/Users/Pleachy/microblog/app/routes.py", line 268, in explore
+    posts = Post.query.order_by(Post.timestamp.des()).all()
+  File "/Users/Pleachy/microblog/venv/lib/python3.7/site-packages/sqlalchemy/orm/attributes.py", line 236, in __getattr__
+    key,
+AttributeError: Neither 'InstrumentedAttribute' object nor 'Comparator' object associated with Post.timestamp has an attribute 'des'
+2020-01-23 16:34:39,946 INFO: Microblog startup [in /Users/Pleachy/microblog/app/__init__.py:73
+2020-01-23 16:41:06,002 INFO: Microblog startup [in /Users/Pleachy/microblog/app/__init__.py:73
+2020-01-23 17:03:19,369 INFO: Microblog startup [in /Users/Pleachy/microblog/app/__init__.py:73
+2020-01-24 14:21:34,063 INFO: Microblog startup [in /Users/Pleachy/microblog/app/__init__.py:73
+2020-01-24 14:22:12,732 ERROR: Exception on /explore [GET] [in /Users/Pleachy/microblog/venv/lib/python3.7/site-packages/flask/app.py:1891
+Traceback (most recent call last):
+  File "/Users/Pleachy/microblog/venv/lib/python3.7/site-packages/flask/app.py", line 2446, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Users/Pleachy/microblog/venv/lib/python3.7/site-packages/flask/app.py", line 1951, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Users/Pleachy/microblog/venv/lib/python3.7/site-packages/flask/app.py", line 1820, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/Users/Pleachy/microblog/venv/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
     raise value
-  File "/Users/Pleachy/microblog/venv/lib/python3.7/site-packages/sqlalchemy/orm/session.py", line 2577, in _flush
-    flush_context.execute()
-  File "/Users/Pleachy/microblog/venv/lib/python3.7/site-packages/sqlalchemy/orm/unitofwork.py", line 422, in execute
-    rec.execute(self)
-  File "/Users/Pleachy/microblog/venv/lib/python3.7/site-packages/sqlalchemy/orm/unitofwork.py", line 589, in execute
-    uow,
-  File "/Users/Pleachy/microblog/venv/lib/python3.7/site-packages/sqlalchemy/orm/persistence.py", line 236, in save_obj
-    update,
-  File "/Users/Pleachy/microblog/venv/lib/python3.7/site-packages/sqlalchemy/orm/persistence.py", line 996, in _emit_update_statements
-    statement, multiparams
-  File "/Users/Pleachy/microblog/venv/lib/python3.7/site-packages/sqlalchemy/engine/base.py", line 982, in execute
-    return meth(self, multiparams, params)
-  File "/Users/Pleachy/microblog/venv/lib/python3.7/site-packages/sqlalchemy/sql/elements.py", line 287, in _execute_on_connection
-    return connection._execute_clauseelement(self, multiparams, params)
-  File "/Users/Pleachy/microblog/venv/lib/python3.7/site-packages/sqlalchemy/engine/base.py", line 1101, in _execute_clauseelement
-    distilled_params,
-  File "/Users/Pleachy/microblog/venv/lib/python3.7/site-packages/sqlalchemy/engine/base.py", line 1250, in _execute_context
-    e, statement, parameters, cursor, context
-  File "/Users/Pleachy/microblog/venv/lib/python3.7/site-packages/sqlalchemy/engine/base.py", line 1476, in _handle_dbapi_exception
-    util.raise_from_cause(sqlalchemy_exception, exc_info)
-  File "/Users/Pleachy/microblog/venv/lib/python3.7/site-packages/sqlalchemy/util/compat.py", line 398, in raise_from_cause
-    reraise(type(exception), exception, tb=exc_tb, cause=cause)
-  File "/Users/Pleachy/microblog/venv/lib/python3.7/site-packages/sqlalchemy/util/compat.py", line 152, in reraise
-    raise value.with_traceback(tb)
-  File "/Users/Pleachy/microblog/venv/lib/python3.7/site-packages/sqlalchemy/engine/base.py", line 1246, in _execute_context
-    cursor, statement, parameters, context
-  File "/Users/Pleachy/microblog/venv/lib/python3.7/site-packages/sqlalchemy/engine/default.py", line 581, in do_execute
-    cursor.execute(statement, parameters)
-sqlalchemy.exc.IntegrityError: (sqlite3.IntegrityError) UNIQUE constraint failed: user.username
-[SQL: UPDATE user SET username=?, about_me=? WHERE user.id = ?]
-[parameters: ('RonnocJones', '', 1)]
-(Background on this error at: http://sqlalche.me/e/gkpj)
-2020-01-22 12:08:04,292 INFO: Microblog startup [in /Users/Pleachy/microblog/app/__init__.py:73
-2020-01-22 12:13:24,598 INFO: Microblog startup [in /Users/Pleachy/microblog/app/__init__.py:73
-2020-01-22 12:22:45,205 INFO: Microblog startup [in /Users/Pleachy/microblog/app/__init__.py:73
-2020-01-22 16:58:57,609 INFO: Microblog startup [in /Users/Pleachy/microblog/app/__init__.py:73
-2020-01-22 16:59:08,130 INFO: Microblog startup [in /Users/Pleachy/microblog/app/__init__.py:73
-2020-01-22 17:04:29,483 INFO: Microblog startup [in /Users/Pleachy/microblog/app/__init__.py:73
-2020-01-22 18:24:53,007 INFO: Microblog startup [in /Users/Pleachy/microblog/app/__init__.py:73
-2020-01-22 18:40:28,638 INFO: Microblog startup [in /Users/Pleachy/microblog/app/__init__.py:73
-2020-01-22 18:41:41,820 INFO: Microblog startup [in /Users/Pleachy/microblog/app/__init__.py:73
-2020-01-23 14:18:08,378 INFO: Microblog startup [in /Users/Pleachy/microblog/app/__init__.py:73
+  File "/Users/Pleachy/microblog/venv/lib/python3.7/site-packages/flask/app.py", line 1949, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/Pleachy/microblog/venv/lib/python3.7/site-packages/flask/app.py", line 1935, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/Users/Pleachy/microblog/venv/lib/python3.7/site-packages/flask_login/utils.py", line 261, in decorated_view
+    return func(*args, **kwargs)
+  File "/Users/Pleachy/microblog/app/routes.py", line 282, in explore
+    if posts.has_prev else None
+  File "/Users/Pleachy/microblog/venv/lib/python3.7/site-packages/flask/helpers.py", line 370, in url_for
+    return appctx.app.handle_url_build_error(error, endpoint, values)
+  File "/Users/Pleachy/microblog/venv/lib/python3.7/site-packages/flask/app.py", line 2215, in handle_url_build_error
+    reraise(exc_type, exc_value, tb)
+  File "/Users/Pleachy/microblog/venv/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/Users/Pleachy/microblog/venv/lib/python3.7/site-packages/flask/helpers.py", line 358, in url_for
+    endpoint, values, method=method, force_external=external
+  File "/Users/Pleachy/microblog/venv/lib/python3.7/site-packages/werkzeug/routing.py", line 2020, in build
+    raise BuildError(endpoint, values, method, self)
+werkzeug.routing.BuildError: Could not build url for endpoint 'explor' with values ['page']. Did you mean 'explore' instead?
+2020-01-24 14:30:13,055 INFO: Microblog startup [in /Users/Pleachy/microblog/app/__init__.py:73
+2020-01-24 14:31:46,770 INFO: Microblog startup [in /Users/Pleachy/microblog/app/__init__.py:73
+2020-01-24 14:32:18,832 INFO: Microblog startup [in /Users/Pleachy/microblog/app/__init__.py:73
+2020-01-24 14:33:10,863 INFO: Microblog startup [in /Users/Pleachy/microblog/app/__init__.py:73
+2020-01-24 14:34:20,776 INFO: Microblog startup [in /Users/Pleachy/microblog/app/__init__.py:73
+2020-01-24 14:38:14,812 INFO: Microblog startup [in /Users/Pleachy/microblog/app/__init__.py:73
+2020-01-24 14:55:38,511 INFO: Microblog startup [in /Users/Pleachy/microblog/app/__init__.py:73
