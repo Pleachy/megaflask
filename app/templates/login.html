@@ -18,6 +18,9 @@
     	{{ form.hidden_tag() }}
         <!-- our login form template needs a link that sends new users to the registration form -->
         <p>New to our town? <a href="{{ url_for('register') }}">Click here to sign up!</a></p>
+        <p>
+            Forgot Your Password?
+            <a href="{{ url_for('reset_password_request') }}">Click to reset it</a></p>
     	<p>
     		{{ form.username.label }}<br>
     		{{ form.username(size=32) }}

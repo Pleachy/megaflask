@@ -1,5 +1,6 @@
 # from python module 'module name' import 'class'
 from flask import Flask
+from flask_mail import Mail
 from config import Config
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
@@ -7,9 +8,11 @@ from flask_login import LoginManager
 import logging
 from logging.handlers import SMTPHandler, RotatingFileHandler
 import os
+#from flask_bootstrap import Bootstrap
 
 app = Flask(__name__)
 app.config.from_object(Config)
+#boostrap = Bootstrap(app)
 # db object which represents the databse
 db = SQLAlchemy(app)
 # migrate is an object representing
@@ -18,6 +21,7 @@ login = LoginManager(app)
 # the 'login' value is the function(or endpoint) name for the login
 # view; the name you would use in a url_for() call to get the URL
 login.login_view = 'login'
+mail = Mail(app)
 
 from app import routes, models, errors
 """
