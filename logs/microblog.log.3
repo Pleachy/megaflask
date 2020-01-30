@@ -1,4 +1,4 @@
-2020-01-23 16:21:59,553 ERROR: Exception on / [GET] [in /Users/Pleachy/microblog/venv/lib/python3.7/site-packages/flask/app.py:1891
+2020-01-23 16:22:21,449 ERROR: Exception on /index [GET] [in /Users/Pleachy/microblog/venv/lib/python3.7/site-packages/flask/app.py:1891
 Traceback (most recent call last):
   File "/Users/Pleachy/microblog/venv/lib/python3.7/site-packages/flask/app.py", line 2446, in wsgi_app
     response = self.full_dispatch_request()
@@ -65,7 +65,8 @@ Traceback (most recent call last):
   File "/Users/Pleachy/microblog/venv/lib/python3.7/site-packages/jinja2/parser.py", line 59, in fail
     raise exc(msg, lineno, self.name, self.filename)
 jinja2.exceptions.TemplateSyntaxError: Encountered unknown tag 'indlue'. Jinja was looking for the following tags: 'endfor' or 'else'. The innermost block that needs to be closed is 'for'.
-2020-01-23 16:22:18,916 ERROR: Exception on /ecplore [GET] [in /Users/Pleachy/microblog/venv/lib/python3.7/site-packages/flask/app.py:1891
+2020-01-23 16:24:54,910 INFO: Microblog startup [in /Users/Pleachy/microblog/app/__init__.py:73
+2020-01-23 16:25:05,030 ERROR: Exception on /ecplore [GET] [in /Users/Pleachy/microblog/venv/lib/python3.7/site-packages/flask/app.py:1891
 Traceback (most recent call last):
   File "/Users/Pleachy/microblog/venv/lib/python3.7/site-packages/sqlalchemy/sql/elements.py", line 717, in __getattr__
     return getattr(self.comparator, key)
@@ -106,3 +107,4 @@ Traceback (most recent call last):
   File "/Users/Pleachy/microblog/venv/lib/python3.7/site-packages/sqlalchemy/orm/attributes.py", line 236, in __getattr__
     key,
 AttributeError: Neither 'InstrumentedAttribute' object nor 'Comparator' object associated with Post.timestamp has an attribute 'des'
+2020-01-23 16:32:55,697 INFO: Microblog startup [in /Users/Pleachy/microblog/app/__init__.py:73

@@ -1,10 +1,11 @@
 <!-- calling our base.html file as a template once more -->
 {% extends "base.html" %}
 
+
 <!-- This template expects a form object instantiated from the
 	LoginForm class to be given as an argument, which is referenced
 	as 'form'. This argument will be sent by the login view function.-->
-{% block content %}
+{% block app_content %}
     <h1>Sign In</h1>
 
     <!--The HTML <form> element is used s a container for the web form.
@@ -17,11 +18,6 @@
     		includes a token that is used to protect the form against CSRF attacks. To have the form proteted you need to include this hidden field and have the SECRET_KEY variable defined in the Flask configuartion. Flask-WTF does the rest, -->
     	{{ form.hidden_tag() }}
         <!-- our login form template needs a link that sends new users to the registration form -->
-        <p>New to our town? <a href="{{ url_for('register') }}">Click here to sign up!</a></p>
-        <p>
-            Forgot Your Password?
-            <a href="{{ url_for('reset_password_request') }}">Click to reset it</a></p>
-    	<p>
     		{{ form.username.label }}<br>
     		{{ form.username(size=32) }}
             {% for error in form.username.errors %}
@@ -37,5 +33,10 @@
     	</p>
     	<p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
     	<p>{{ form.submit() }}</p>
+        <p>New to our town? <a href="{{ url_for('register') }}">Click here to sign up!</a></p>
+        <p>
+            Forgot Your Password?
+            <a href="{{ url_for('reset_password_request') }}">Click to reset it</a></p>
+        <p>
     </form>
 {% endblock %}

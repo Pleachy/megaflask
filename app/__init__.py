@@ -8,11 +8,12 @@ from flask_login import LoginManager
 import logging
 from logging.handlers import SMTPHandler, RotatingFileHandler
 import os
-#from flask_bootstrap import Bootstrap
+from flask_bootstrap import Bootstrap
+from flask_moment import Moment
 
 app = Flask(__name__)
 app.config.from_object(Config)
-#boostrap = Bootstrap(app)
+boostrap = Bootstrap(app)
 # db object which represents the databse
 db = SQLAlchemy(app)
 # migrate is an object representing
@@ -22,6 +23,7 @@ login = LoginManager(app)
 # view; the name you would use in a url_for() call to get the URL
 login.login_view = 'login'
 mail = Mail(app)
+moment = Moment(app)
 
 from app import routes, models, errors
 """
